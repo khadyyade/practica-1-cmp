@@ -1,0 +1,88 @@
+Gramática
+
+    0 $accept: programa $end
+
+    1 programa: expressio
+
+    2 expressio: ID ASSIGN INTEGER ENDLINE
+
+
+Terminales con las reglas donde aparecen
+
+    $end (0) 0
+    error (256)
+    ASSIGN <sense_valor> (258) 2
+    ENDLINE <sense_valor> (259) 2
+    INTEGER <enter> (260) 2
+    ID <ident> (261) 2
+
+
+No terminales con las reglas donde aparecen
+
+    $accept (7)
+        on left: 0
+    programa <sense_valor> (8)
+        on left: 1
+        on right: 0
+    expressio <expr_val> (9)
+        on left: 2
+        on right: 1
+
+
+Estado 0
+
+    0 $accept: • programa $end
+
+    ID  desplazar e ir al estado 1
+
+    programa   ir al estado 2
+    expressio  ir al estado 3
+
+
+Estado 1
+
+    2 expressio: ID • ASSIGN INTEGER ENDLINE
+
+    ASSIGN  desplazar e ir al estado 4
+
+
+Estado 2
+
+    0 $accept: programa • $end
+
+    $end  desplazar e ir al estado 5
+
+
+Estado 3
+
+    1 programa: expressio •
+
+    $default  reduce usando la regla 1 (programa)
+
+
+Estado 4
+
+    2 expressio: ID ASSIGN • INTEGER ENDLINE
+
+    INTEGER  desplazar e ir al estado 6
+
+
+Estado 5
+
+    0 $accept: programa $end •
+
+    $default  aceptar
+
+
+Estado 6
+
+    2 expressio: ID ASSIGN INTEGER • ENDLINE
+
+    ENDLINE  desplazar e ir al estado 7
+
+
+Estado 7
+
+    2 expressio: ID ASSIGN INTEGER ENDLINE •
+
+    $default  reduce usando la regla 2 (expressio)

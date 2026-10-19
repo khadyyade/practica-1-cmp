@@ -13,7 +13,7 @@ extern int yylex();
 %code requires {
   /* Les definicions que s'utilitzen al %union han d'estar aqui */
   #include "exemple_dades.h"
-  #include "exemple_funcions.h"
+  #include "functions.h"
 }
 
 %union{

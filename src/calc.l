@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "exemple.tab.h"
-#include "exemple_funcions.h"
+#include "calc.tab.h"
+#include "functions.h"
 
 %}
 
