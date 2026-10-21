@@ -54,6 +54,18 @@ digit   [0-9]
 
 [ \t]+                      { /* espacios y tabuladores: se ignoran */ }
 
+^[ \t]*"//".*[\n]           { 
+                              next_column = 1; 
+                            }
+
+^[ \t]*"#".*[\n]            { 
+                              next_column = 1; 
+                            }
+
+"//".*                      { }
+
+"#".*                       { }
+
 .                           {
                               fprintf(stderr, "Línia %d, columna %d\nError lèxic: caràcter inesperat '%s'\n",token_line, token_column, yytext); 
                             }

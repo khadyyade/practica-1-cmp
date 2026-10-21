@@ -1,0 +1,3 @@
+// comentari
+# un altre
+a = 5 // final
