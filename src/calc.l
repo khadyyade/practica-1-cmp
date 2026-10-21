@@ -6,6 +6,14 @@
 #include "calc.tab.h"
 #include "functions.h"
 
+static int next_column = 1;
+int token_line = 1, token_column = 1;
+
+#define YY_USER_ACTION        \
+  token_line = yylineno;      \
+  token_column = next_column; \
+  next_column += yyleng;      \
+
 %}
 
 %option yylineno
@@ -18,7 +26,6 @@ digit   [0-9]
 
 %%
 
-
 {lletra}({lletra}|{digit})* {
                               yylval.ident.lexema = strdup(yytext);
                               yylval.ident.lenght = yyleng;
@@ -27,18 +34,29 @@ digit   [0-9]
                               return ID;
                             }
 
-"="                         { return ASSIGN; }
+"="                         { 
+                              return ASSIGN; 
+                            }
 
 {digit}({digit})*           {
                               yylval.enter = atoi(yytext);
                               return INTEGER;
                             }
 
-^[ \t]*[\n]                 {}
+^[ \t]*[\n]                 {
+                              next_column = 1;
+                            }
 
-[\n]                        { return ENDLINE; }
+[\n]                        { 
+                              next_column = 1;
+                              return ENDLINE; 
+                            }
 
-.                           {}
+[ \t]+                      { /* espacios y tabuladores: se ignoran */ }
+
+.                           {
+                              fprintf(stderr, "Línia %d, columna %d\nError lèxic: caràcter inesperat '%s'\n",token_line, token_column, yytext); 
+                            }
 
 %%
 
